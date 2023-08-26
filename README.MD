@@ -48,6 +48,11 @@ as a JAR: ``mvn clean install``
 4. As you declared in step 1 that the outputDirectory is at the scripts folder, dreambot now automatiqually 
 detects your script and you can run it.
 
-See: ![outcome](https://prnt.sc/rfc4PNp_X_tk)
-   
-
+### Result: 
+<div style="display: flex; justify-content: center;">
+  <img src="https://github.com/Darjow/dreambot-workspace/assets/77673973/1b0e425c-03fa-4644-8f52-3bec628ef6d6" 
+       data-canonical-src="https://gyazo.com/eb5c5741b6a9a16c692170a41a49c858.png" 
+       width="700" 
+       height="400" 
+       style="max-width: 100%; height: auto;" />
+</div>
