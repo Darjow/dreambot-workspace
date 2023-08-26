@@ -1,6 +1,6 @@
 package com.darjow.framework.script;
 
-import com.darjow.framework.tasks.decisiontree.Tree;
+import com.darjow.framework.decisiontree.Tree;
 import org.dreambot.api.script.AbstractScript;
 
 public abstract class DecisionTreeScript extends AbstractScript {
@@ -8,10 +8,10 @@ public abstract class DecisionTreeScript extends AbstractScript {
 
     public void onStart(){
         super.onStart();
-        decisionTree = createDecisionTree();
+        createDecisionTree();
     }
 
-    protected abstract Tree createDecisionTree();
+    protected abstract void createDecisionTree();
 
 
 

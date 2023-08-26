@@ -21,27 +21,25 @@ as the `scripts` require the jar.
 
 1. In case you created a new script, add the building and output step to the `pom.xml` as shown here as an example for the splasher script 
 ``` 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.2.0</version>
-        <executions>
-          <execution>
-            <id>package-splasher</id>
+            <execution>
+            <id>splasher</id>
+            <configuration>
+              <archive>
+                <manifest>
+                  <mainClass>com.darjow.scripts.splasher.Main</mainClass>
+                </manifest>
+              </archive>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+              <finalName>splasher</finalName>
+              <outputDirectory>${user.home}/DreamBot/Scripts</outputDirectory>
+            </configuration>
             <phase>package</phase>
             <goals>
-              <goal>jar</goal>
+              <goal>single</goal>
             </goals>
-            <configuration>
-              <includes>
-                <include>com/darjow/scripts/splasher/**</include>
-              </includes>
-              <outputDirectory>${user.home}\DreamBot\Scripts</outputDirectory>
-              <classifier>splasher</classifier>
-            </configuration>
           </execution>
-        </executions>
-      </plugin>
 ```
 2. Open a terminal/command prompt and navigate to the `dreambot-scripts` project directory.
 3. Run the following command to build and install the scripts in your local Maven repository

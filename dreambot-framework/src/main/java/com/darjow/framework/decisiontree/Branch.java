@@ -19,9 +19,4 @@ public abstract class Branch implements TreeComponent {
             }
         }
     }
-
-    @Override
-    public boolean validate() {
-        return false;
-    }
 }
