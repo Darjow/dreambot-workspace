@@ -20,7 +20,8 @@ To generate a jar file from your scripts ensure you have generated the `dreambot
 as the `scripts` require the jar.
 
 1. In case you created a new script, add the building and output step to the `pom.xml` as shown here as an example for the splasher script 
-``` <plugin>
+``` 
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.2.0</version>
