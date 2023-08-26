@@ -1,10 +1,18 @@
 package com.darjow.scripts.splasher;
 
+import com.darjow.framework.decisiontree.Tree;
+import com.darjow.framework.decisiontree.TreeBuilder;
+import com.darjow.framework.script.DecisionTreeScript;
 import com.darjow.framework.utility.discord.DiscordWebhook;
 import com.darjow.framework.utility.time.TimeUtilites;
+import com.darjow.scripts.splasher.actions.branch.ExecutableBranch;
+import com.darjow.scripts.splasher.actions.branch.TestFalseBranch;
+import com.darjow.scripts.splasher.actions.leaves.LeaveOne;
+import com.darjow.scripts.splasher.actions.leaves.LeaveOneFalse;
+import com.darjow.scripts.splasher.actions.leaves.LeaveTwo;
+import com.darjow.scripts.splasher.actions.leaves.LeaveTwoFalse;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.login.LoginUtility;
-import org.dreambot.api.script.AbstractScript;
 import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.api.utilities.Logger;
@@ -19,7 +27,7 @@ import java.io.IOException;
         description = "Fetches all items and performs splashing until target level has reached",
         name = "Shock's Splasher"
 )
-public class Main extends AbstractScript {
+public class Main extends DecisionTreeScript {
     private final TimeUtilites timeUtilities = new TimeUtilites();
 
     @Override
@@ -37,21 +45,20 @@ public class Main extends AbstractScript {
         }
     }
 
-  /*  @Override
-    protected Tree createDecisionTree() {
-       /* Tree decisionTree = TreeBuilder.newBuilder()
+  @Override
+    protected void createDecisionTree() {
+        Tree decisionTree = TreeBuilder.newBuilder()
                 .addBranch(new ExecutableBranch())
                         .addComponent(new LeaveOne())
                         .addComponent(new LeaveOneFalse())
                 .addBranch(new TestFalseBranch())
-                    .addComponent(new LeaveOne())
-                    .addComponent(new LeaveOneFalse())
+                    .addComponent(new LeaveTwo())
+                    .addComponent(new LeaveTwoFalse())
                 .build();
 
-        Tree decisionTree = new Tree();
-        return decisionTree;
+        this.decisionTree = decisionTree;
     }
-*/
+
     @Override
     public void onExit() {
         super.onExit();

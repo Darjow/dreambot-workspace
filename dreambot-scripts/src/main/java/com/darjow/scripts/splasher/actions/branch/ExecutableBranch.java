@@ -1,13 +1,14 @@
 package com.darjow.scripts.splasher.actions.branch;
 
 import com.darjow.framework.decisiontree.Branch;
+import org.dreambot.api.utilities.Logger;
 
 public class ExecutableBranch extends Branch {
 
 
     @Override
     public void execute() {
-        System.out.println("Branch: " + this.getClass().getName());
+        Logger.info("Branch: " + this.getClass().getName());
     }
 
     @Override

@@ -6,7 +6,15 @@
   <packaging>jar</packaging>
   <version>1.0</version>
   <name>scripts</name>
-  <url>http://maven.apache.org</url>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.darjow.framework</groupId>
+      <artifactId>dreambot-framework</artifactId>
+      <version>1.0</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
 
   <build>
     <plugins>
@@ -21,34 +29,29 @@
       </plugin>
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.2.0</version>
+        <artifactId>maven-assembly-plugin</artifactId>
         <executions>
           <execution>
-            <id>package-splasher</id>
+            <id>splasher</id>
+            <configuration>
+              <archive>
+                <manifest>
+                  <mainClass>com.darjow.scripts.splasher.Main</mainClass>
+                </manifest>
+              </archive>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+              <finalName>splasher</finalName>
+              <outputDirectory>${user.home}/DreamBot/Scripts</outputDirectory>
+            </configuration>
             <phase>package</phase>
             <goals>
-              <goal>jar</goal>
+              <goal>single</goal>
             </goals>
-            <configuration>
-              <includes>
-                <include>com/darjow/scripts/splasher/**</include>
-              </includes>
-              <outputDirectory>${user.home}\DreamBot\Scripts</outputDirectory>
-              <classifier>splasher</classifier>
-            </configuration>
           </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
-
-  <dependencies>
-    <dependency>
-      <groupId>com.darjow.framework</groupId>
-      <artifactId>dreambot-framework</artifactId>
-      <version>1.0</version>
-    </dependency>
-  </dependencies>
 </project>
