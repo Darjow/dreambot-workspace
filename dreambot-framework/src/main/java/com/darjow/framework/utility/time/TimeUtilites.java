@@ -12,6 +12,7 @@ public class TimeUtilites {
         int sec  = (int)(millis/ 1000) % 60 ;
         int min  = (int)((millis/ (1000*60)) % 60);
         int hr   = (int)((millis/ (1000*60*60)) % 24);
-        return String.format("%s:%s:%s", hr < 10? "0" + hr : hr, min < 10? "0" + min: min, sec < 10? "0" + sec: sec);
+
+        return String.format("%02d:%02d:%02d", hr, min, sec);
     }
 }
