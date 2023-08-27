@@ -1,4 +1,5 @@
-package com.darjow.framework.decisiontree;
+package com.darjow.framework.decisiontree.components;
+
 
 import java.util.ArrayList;
 import java.util.List;

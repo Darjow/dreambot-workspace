@@ -1,16 +1,15 @@
 package com.darjow.scripts.splasher;
 
-import com.darjow.framework.decisiontree.Tree;
-import com.darjow.framework.decisiontree.TreeBuilder;
+import com.darjow.framework.decisiontree.components.Branch;
+import com.darjow.framework.decisiontree.components.CompletableBranch;
+import com.darjow.framework.decisiontree.components.Tree;
+import com.darjow.framework.decisiontree.components.TreeBuilder;
 import com.darjow.framework.script.DecisionTreeScript;
 import com.darjow.framework.utility.discord.DiscordWebhook;
 import com.darjow.framework.utility.time.TimeUtilites;
-import com.darjow.scripts.splasher.actions.branch.ExecutableBranch;
-import com.darjow.scripts.splasher.actions.branch.TestFalseBranch;
-import com.darjow.scripts.splasher.actions.leaves.LeaveOne;
-import com.darjow.scripts.splasher.actions.leaves.LeaveOneFalse;
-import com.darjow.scripts.splasher.actions.leaves.LeaveTwo;
-import com.darjow.scripts.splasher.actions.leaves.LeaveTwoFalse;
+import com.darjow.scripts.splasher.leaves.GetStaff;
+import com.darjow.scripts.splasher.leaves.RunToSpot;
+import com.darjow.scripts.splasher.leaves.Splash;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.login.LoginUtility;
 import org.dreambot.api.script.Category;
@@ -45,19 +44,6 @@ public class Main extends DecisionTreeScript {
         }
     }
 
-  @Override
-    protected void createDecisionTree() {
-        Tree decisionTree = TreeBuilder.newBuilder()
-                .addBranch(new ExecutableBranch())
-                        .addComponent(new LeaveOne())
-                        .addComponent(new LeaveOneFalse())
-                .addBranch(new TestFalseBranch())
-                    .addComponent(new LeaveTwo())
-                    .addComponent(new LeaveTwoFalse())
-                .build();
-
-        this.decisionTree = decisionTree;
-    }
 
     @Override
     public void onExit() {
@@ -78,8 +64,27 @@ public class Main extends DecisionTreeScript {
     }
 
     @Override
+    protected void createDecisionTree() {
+        //dependancy
+        CompletableBranch setupBranch = new CompletableBranch();
+
+        Tree decisionTree = TreeBuilder.newBuilder()
+                .addBranch(setupBranch)
+                    .addComponent(new GetStaff())
+                    .addComponent(new RunToSpot())
+
+                .addBranch(new Branch())
+                    .addDependancy(setupBranch)
+                    .addComponent(new Splash())
+
+                .build();
+
+        this.decisionTree = decisionTree;
+    }
+
+    @Override
     public int onLoop() {
-        //decisionTree.execute();
+        decisionTree.execute();
         return Calculations.random(250,1250);
     }
 
