@@ -16,7 +16,7 @@ public class TreeBuilder {
         currentBranch = branch;
         return this;
     }
-    public TreeBuilder addComponent(TreeComponent component){
+    public TreeBuilder addLeaf(Leaf component){
         if(currentBranch != null){
             currentBranch.addComponent(component);
         }

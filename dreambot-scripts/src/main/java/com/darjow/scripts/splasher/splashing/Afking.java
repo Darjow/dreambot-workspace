@@ -1,8 +1,12 @@
-package com.darjow.scripts.splasher.leaves;
+package com.darjow.scripts.splasher.splashing;
 
 import com.darjow.framework.decisiontree.components.Leaf;
 
-public class Splash extends Leaf {
+public class Afking extends Leaf {
+
+    public Afking() {
+        super("AFK");
+    }
 
     @Override
     public boolean validate() {

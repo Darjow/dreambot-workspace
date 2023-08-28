@@ -6,6 +6,10 @@ import com.darjow.framework.decisiontree.actions.TreeComponent;
 public class CompletableBranch extends Branch implements Completable {
     protected boolean completed;
 
+    public CompletableBranch(String status) {
+        super(status);
+    }
+
     @Override
     public boolean validate() {
         if(completed || !dependenciesCompleted()){
@@ -21,13 +25,12 @@ public class CompletableBranch extends Branch implements Completable {
     }
 
     @Override
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
-    @Override
     public boolean isCompleted() {
         return completed;
     }
 
+    @Override
+    public void setCompleted(boolean b) {
+        this.completed = b;
+    }
 }

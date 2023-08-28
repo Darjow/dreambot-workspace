@@ -7,16 +7,25 @@ import java.util.List;
 
 public class Branch implements TreeComponent {
 
-    protected List<TreeComponent> children = new ArrayList<>();
+    private final String status;
+
+    public Branch(String status){
+        this.status = status;
+    }
+    protected List<Leaf> children = new ArrayList<>();
     protected List<Branch> dependencies = new ArrayList<>(); //branches to be executed before the branch.
 
     protected TreeComponent current = null;
 
+    public List<Leaf> getChildren(){
+        return children;
+    }
 
-    public void addComponent(TreeComponent component) {
+    public void addComponent(Leaf component) {
         children.add(component);
     }
     public void addDependency(Branch branch){dependencies.add(branch);}
+
 
     @Override
     public void execute() {
@@ -46,5 +55,9 @@ public class Branch implements TreeComponent {
             }
         }
         return true;
+    }
+
+    public String getStatus() {
+        return String.format("[%s] - %s", getClass().getSimpleName(), status);
     }
 }

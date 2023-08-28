@@ -6,10 +6,12 @@ import com.darjow.framework.decisiontree.components.Tree;
 import com.darjow.framework.decisiontree.components.TreeBuilder;
 import com.darjow.framework.script.DecisionTreeScript;
 import com.darjow.framework.utility.discord.DiscordWebhook;
+import com.darjow.framework.utility.paint.PaintBuilder;
 import com.darjow.framework.utility.time.TimeUtilites;
-import com.darjow.scripts.splasher.leaves.GetStaff;
-import com.darjow.scripts.splasher.leaves.RunToSpot;
-import com.darjow.scripts.splasher.leaves.Splash;
+import com.darjow.scripts.splasher.setup.*;
+import com.darjow.scripts.splasher.splashing.SplashingBranch;
+import org.dreambot.api.Client;
+import org.dreambot.api.data.GameState;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.login.LoginUtility;
 import org.dreambot.api.script.Category;
@@ -27,11 +29,14 @@ import java.io.IOException;
         name = "Shock's Splasher"
 )
 public class Main extends DecisionTreeScript {
+
     private final TimeUtilites timeUtilities = new TimeUtilites();
+    private final PaintBuilder paintBuilder = new PaintBuilder(timeUtilities);
 
     @Override
     public void onStart() {
         super.onStart();
+        createDecisionTree();
         DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/1144906518001623110/K3oxBYKaprKHRVdOkSAXCw593M1oZLGUfnt-PP84-6QiYLTKM55Dvw9NEkX_hJlQhfYk");
         webhook.setTts(true);
         webhook.addEmbed(new DiscordWebhook.EmbedObject()
@@ -42,8 +47,9 @@ public class Main extends DecisionTreeScript {
         } catch (IOException e) {
             Logger.error("Discordwebhook failed on start: " + e.getMessage());
         }
-    }
 
+        LoginUtility.login();
+    }
 
     @Override
     public void onExit() {
@@ -66,16 +72,15 @@ public class Main extends DecisionTreeScript {
     @Override
     protected void createDecisionTree() {
         //dependancy
-        CompletableBranch setupBranch = new CompletableBranch();
-
+        CompletableBranch setupBranch = new SetupBranch();
         Tree decisionTree = TreeBuilder.newBuilder()
                 .addBranch(setupBranch)
-                    .addComponent(new GetStaff())
-                    .addComponent(new RunToSpot())
+                    .addLeaf(new GoToMarket())
+                    .addLeaf(new BuyStaff())
+                    .addLeaf(new RunToSpot())
 
-                .addBranch(new Branch())
+                .addBranch(new SplashingBranch())
                     .addDependancy(setupBranch)
-                    .addComponent(new Splash())
 
                 .build();
 
@@ -84,7 +89,11 @@ public class Main extends DecisionTreeScript {
 
     @Override
     public int onLoop() {
-        decisionTree.execute();
+        if(Client.getGameState() != GameState.LOGGED_IN || Client.getGameState() == GameState.LOGIN_SCREEN){
+            sleep(1000);
+        }else {
+            decisionTree.execute();
+        }
         return Calculations.random(250,1250);
     }
 
