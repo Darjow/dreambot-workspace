@@ -36,8 +36,6 @@ public class Tree {
                         break;
                     }
                 }
-                currentBranch = null;
-                currentLeaf = null;
             }
         }
     }

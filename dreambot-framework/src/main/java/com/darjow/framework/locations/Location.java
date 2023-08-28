@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public enum Location {
     DRAYNOR_VILLAGE_MARKET(new Area(3075, 3246, 3086, 3255)),
-    PORT_SARIM_SEAGULLS(new Area(3150, 4013, 3184, 3978)),
+    PORT_SARIM_SEAGULLS(new Area(3026, 3225, 3184, 3240)),
     LUMBRIDGE_TELEPORT(new Area(3215,3213,3226,3321,0));
 
 

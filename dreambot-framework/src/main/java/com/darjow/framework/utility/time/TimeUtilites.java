@@ -7,7 +7,7 @@ public class TimeUtilites {
         startTime = System.currentTimeMillis();
     }
 
-    public String formatTime(){
+    public String getTimeRunning(){
         long millis = System.currentTimeMillis() - startTime;
         int sec  = (int)(millis/ 1000) % 60 ;
         int min  = (int)((millis/ (1000*60)) % 60);

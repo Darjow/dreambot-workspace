@@ -1,4 +1,4 @@
-package com.darjow.scripts.splasher.splashing;
+package com.darjow.scripts.splasher.branches.splashing;
 
 import com.darjow.framework.decisiontree.components.Branch;
 
