@@ -1,11 +1,12 @@
 package com.darjow.scripts.splasher.branches.splashing.leaves;
 
 import com.darjow.framework.decisiontree.components.Leaf;
+import com.darjow.framework.handlers.afk.AFKHandler;
+import com.darjow.framework.handlers.afk.DistributionType;
 import com.darjow.framework.mouse.FullscreenRectangle;
 import com.darjow.framework.mouse.MouseArea;
 import org.dreambot.api.input.Mouse;
 import org.dreambot.api.methods.Calculations;
-import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
@@ -16,19 +17,20 @@ import java.util.Random;
 
 public class GoAfk extends Leaf {
 
-    private long afkEnd;
+    private AFKHandler handler;
 
 
-    public GoAfk() {
+    public GoAfk(AFKHandler handler) {
         super("AFK");
-        afkEnd = System.currentTimeMillis();
+        this.handler = handler;
+
     }
 
     @Override
     public boolean validate() {
         Player local = Players.getLocal();
 
-        if (afkEnd <= System.currentTimeMillis()) {
+        if (!handler.isAfk()) {
             if (local.isInCombat() && local.isHealthBarVisible()) {
                 return true;
             }
@@ -39,13 +41,7 @@ public class GoAfk extends Leaf {
 
     @Override
     public void execute() {
-        afkEnd = System.currentTimeMillis()  + Calculations.random(75 * 1000, 400 * 1000);
-
-        performRandomActionBeforeAfk();
-
-        if(new Random().nextInt(15) != 1){
-            Mouse.moveOutsideScreen();
-        }
+        handler.startAfk(90 * 1000, 1250 * 1000, 700 * 1000, DistributionType.LITTLE_SPREAD);
     }
 
     private void performRandomActionBeforeAfk() {
@@ -61,6 +57,9 @@ public class GoAfk extends Leaf {
             default:
                 Point random = new MouseArea(FullscreenRectangle.getRectangle()).getRandomPoint();
                 Mouse.click(random, true);
+        }
+        if(new Random().nextInt(15) != 1){
+            Mouse.moveOutsideScreen();
         }
     }
 

@@ -39,6 +39,7 @@ import java.io.IOException;
 public class Main extends DecisionTreeScript {
 
     private final TimeUtilites timeUtilities = new TimeUtilites();
+    private boolean isAfk = false;
 
 
     @Override
@@ -48,7 +49,8 @@ public class Main extends DecisionTreeScript {
         g.drawString(decisionTree.getCurrentBranch().getStatus(), 40, 180);
         g.drawString(decisionTree.getCurrentLeaf().getStatus(), 40, 200);
         g.drawString(String.format("Total runtime: %s", timeUtilities.getTimeRunning()), 40, 240);
-        g.drawString(String.format("Magic Level: %d", Skills.getRealLevel(Skill.MAGIC)), 40, 260);
+        g.drawString(String.format("Exp earned: %s", SkillTracker.getGainedExperience(Skill.MAGIC)), 40, 260);
+        g.drawString(String.format("Magic Level: %d", Skills.getRealLevel(Skill.MAGIC)), 40, 280);
     }
 
     @Override
@@ -104,7 +106,7 @@ public class Main extends DecisionTreeScript {
                     .addDependancy(setupBranch)
                     .addLeaf(new AutoCast())
                     .addLeaf(new AttackSeagull())
-                    .addLeaf(new GoAfk())
+                    //.addLeaf(new GoAfk())
 
                 .build();
 

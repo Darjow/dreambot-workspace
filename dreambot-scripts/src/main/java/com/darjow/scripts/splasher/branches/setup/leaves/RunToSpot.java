@@ -25,7 +25,7 @@ public class RunToSpot extends Leaf {
     @Override
     public void execute() {
         Logger.log("Executing RunToSpot");
-        Walking.walk(PORT_SARIM_SEAGULLS.getArea().getRandomTile());
+        Walking.walk(PORT_SARIM_SEAGULLS.getWalkableTile());
 
     }
 
