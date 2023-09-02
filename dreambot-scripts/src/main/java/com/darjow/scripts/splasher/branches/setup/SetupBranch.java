@@ -4,9 +4,11 @@ import com.darjow.framework.decisiontree.components.Branch;
 
 public class SetupBranch extends Branch {
 
-    public SetupBranch(){
-        super("Getting ready to splash");
+    public SetupBranch(){}
+
+
+    @Override
+    public String getStatus() {
+        return "[Branch] Setting up before splashing.";
     }
-
-
 }

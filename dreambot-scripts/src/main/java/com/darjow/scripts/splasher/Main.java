@@ -1,8 +1,10 @@
 package com.darjow.scripts.splasher;
 
 import com.darjow.framework.decisiontree.components.Branch;
+import com.darjow.framework.decisiontree.components.Leaf;
 import com.darjow.framework.decisiontree.components.Tree;
 import com.darjow.framework.decisiontree.components.TreeBuilder;
+import com.darjow.framework.handlers.afk.AFKHandler;
 import com.darjow.framework.script.DecisionTreeScript;
 import com.darjow.framework.utility.discord.DiscordWebhook;
 import com.darjow.framework.utility.time.TimeUtilites;
@@ -25,6 +27,7 @@ import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManager;
 import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.api.utilities.Logger;
+import org.dreambot.api.utilities.Sleep;
 
 import java.awt.*;
 import java.io.IOException;
@@ -39,15 +42,21 @@ import java.io.IOException;
 public class Main extends DecisionTreeScript {
 
     private final TimeUtilites timeUtilities = new TimeUtilites();
-    private boolean isAfk = false;
+    private AFKHandler handler = new AFKHandler();
 
 
     @Override
     public void onPaint(Graphics g) {
         g.setFont(new Font("Sathu", Font.BOLD, 12));
         g.drawString("Shock's - Splasher", 40, 160);
-        g.drawString(decisionTree.getCurrentBranch().getStatus(), 40, 180);
-        g.drawString(decisionTree.getCurrentLeaf().getStatus(), 40, 200);
+
+        Leaf leaf = decisionTree.getCurrentLeaf();
+
+        if(leaf != null){
+            g.drawString(decisionTree.getCurrentBranch().getStatus(), 40, 180);
+            g.drawString(decisionTree.getCurrentLeaf().getStatus(), 40, 200);
+        }
+
         g.drawString(String.format("Total runtime: %s", timeUtilities.getTimeRunning()), 40, 240);
         g.drawString(String.format("Exp earned: %s", SkillTracker.getGainedExperience(Skill.MAGIC)), 40, 260);
         g.drawString(String.format("Magic Level: %d", Skills.getRealLevel(Skill.MAGIC)), 40, 280);
@@ -106,7 +115,7 @@ public class Main extends DecisionTreeScript {
                     .addDependancy(setupBranch)
                     .addLeaf(new AutoCast())
                     .addLeaf(new AttackSeagull())
-                    //.addLeaf(new GoAfk())
+                    .addLeaf(new GoAfk(handler))
 
                 .build();
 
@@ -119,7 +128,12 @@ public class Main extends DecisionTreeScript {
             ScriptManager.getScriptManager().stop();
         }
         if(Client.isLoggedIn()){
-            decisionTree.execute();
+            if(handler.isAfk()){
+                Sleep.sleepUntil(() -> !handler.isAfk(), 5000, 10);
+            }
+            else{
+                decisionTree.execute();
+            }
         }
         return Calculations.random(250,1250);
     }

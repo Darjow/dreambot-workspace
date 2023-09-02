@@ -2,11 +2,12 @@ package com.darjow.scripts.splasher.branches.splashing.leaves;
 
 import com.darjow.framework.decisiontree.components.Leaf;
 import com.darjow.framework.handlers.afk.AFKHandler;
-import com.darjow.framework.handlers.afk.DistributionType;
-import com.darjow.framework.mouse.FullscreenRectangle;
-import com.darjow.framework.mouse.MouseArea;
+import com.darjow.framework.input.camera.CameraMovements;
+import com.darjow.framework.input.mouse.FullscreenRectangle;
+import com.darjow.framework.input.mouse.MouseArea;
 import org.dreambot.api.input.Mouse;
 import org.dreambot.api.methods.Calculations;
+import org.dreambot.api.methods.input.Camera;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
@@ -19,11 +20,8 @@ public class GoAfk extends Leaf {
 
     private AFKHandler handler;
 
-
     public GoAfk(AFKHandler handler) {
-        super("AFK");
         this.handler = handler;
-
     }
 
     @Override
@@ -41,27 +39,35 @@ public class GoAfk extends Leaf {
 
     @Override
     public void execute() {
-        handler.startAfk(90 * 1000, 1250 * 1000, 700 * 1000, DistributionType.LITTLE_SPREAD);
-    }
+        handler.startAfk(90, 1800, 700);
 
-    private void performRandomActionBeforeAfk() {
-        switch(Calculations.random(0,5)) {
-            case 1:
-                Skills.hoverSkill(Skill.MAGIC);
-                break;
-            case 2:
-                Point randomXY = new MouseArea(FullscreenRectangle.getRectangle()).getRandomPoint();
-                Mouse.click(randomXY, true);
-                Mouse.move(new MouseArea(FullscreenRectangle.getRectangle()).getRandomPoint());
-                break;
-            default:
-                Point random = new MouseArea(FullscreenRectangle.getRectangle()).getRandomPoint();
-                Mouse.click(random, true);
+        int random = Calculations.random(1,10);
+        boolean rightclick = false;
+
+        if(random == 1) {
+            Skills.hoverSkill(Skill.MAGIC);
+            rightclick = true;
         }
+        else if (random <= 4){
+            CameraMovements.randomSwipe();
+        }
+        else if (random <= 10) {
+            rightclick = true;
+        }
+
+        if(rightclick){
+            Rectangle fullScreen= FullscreenRectangle.getRectangle();
+            Mouse.click(new MouseArea(fullScreen).getRandomPoint());
+        }
+
         if(new Random().nextInt(15) != 1){
             Mouse.moveOutsideScreen();
         }
+
     }
 
-
+    @Override
+    public String getStatus() {
+        return String.format("[Leaf] Afk for: %d more seconds.", ((handler.getAfkUntil() - System.currentTimeMillis()) / 1000));
+    }
 }

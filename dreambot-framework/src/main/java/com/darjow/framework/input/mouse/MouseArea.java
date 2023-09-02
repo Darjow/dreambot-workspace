@@ -1,4 +1,4 @@
-package com.darjow.framework.mouse;
+package com.darjow.framework.input.mouse;
 
 import java.awt.*;
 import java.util.Random;

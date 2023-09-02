@@ -8,9 +8,7 @@ import static com.darjow.scripts.splasher.util.Constants.ItemIDs.CURSED_GOBLIN_S
 
 public class EquipStaff extends Leaf {
 
-    public EquipStaff() {
-        super("Equipping staff");
-    }
+    public EquipStaff() {}
 
     @Override
     public boolean validate() {
@@ -21,5 +19,10 @@ public class EquipStaff extends Leaf {
     public void execute() {
         Logger.info("Equipping staff");
        Inventory.get(CURSED_GOBLIN_STAFF).interact();
+    }
+
+    @Override
+    public String getStatus() {
+        return "[Leaf] Equipping staff.";
     }
 }

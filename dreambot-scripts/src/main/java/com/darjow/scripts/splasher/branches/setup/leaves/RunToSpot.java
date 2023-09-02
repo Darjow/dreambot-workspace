@@ -10,9 +10,7 @@ import static com.darjow.framework.locations.Location.PORT_SARIM_SEAGULLS;
 
 public class RunToSpot extends Leaf {
 
-    public RunToSpot() {
-        super("Running to port sarim seagulls");
-    }
+    public RunToSpot() {}
 
     @Override
     public boolean validate() {
@@ -27,6 +25,11 @@ public class RunToSpot extends Leaf {
         Logger.log("Executing RunToSpot");
         Walking.walk(PORT_SARIM_SEAGULLS.getWalkableTile());
 
+    }
+
+    @Override
+    public String getStatus() {
+        return "[Leaf] Running to seagulls.";
     }
 
 

@@ -18,9 +18,7 @@ import static com.darjow.scripts.splasher.util.Constants.ItemIDs.CURSED_GOBLIN_S
 
 public class BuyStaff extends Leaf {
 
-    public BuyStaff() {
-        super("Buying a staff");
-    }
+    public BuyStaff() {    }
 
     @Override
     public boolean validate() {
@@ -64,5 +62,10 @@ public class BuyStaff extends Leaf {
                 Shop.close();
             }
         }
+    }
+
+    @Override
+    public String getStatus() {
+        return "[Leaf] Buying a staff.";
     }
 }

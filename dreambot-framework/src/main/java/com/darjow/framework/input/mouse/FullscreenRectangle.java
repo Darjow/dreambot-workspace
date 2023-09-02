@@ -1,6 +1,5 @@
-package com.darjow.framework.mouse;
+package com.darjow.framework.input.mouse;
 
-import org.dreambot.api.methods.widget.Widget;
 import org.dreambot.api.methods.widget.Widgets;
 
 import java.awt.*;

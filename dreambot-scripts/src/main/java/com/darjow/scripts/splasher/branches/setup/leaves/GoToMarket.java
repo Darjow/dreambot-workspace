@@ -20,7 +20,6 @@ public class GoToMarket extends Leaf {
     private TeleportationMethod lumbridgeTp;
 
     public GoToMarket(){
-        super("Going to draynor village");
         this.lumbridgeTp = new LumbridgeTeleport();
     }
 
@@ -60,5 +59,10 @@ public class GoToMarket extends Leaf {
                 ScriptManager.getScriptManager().stop();
             }
         }
+    }
+
+    @Override
+    public String getStatus() {
+        return "[Leaf] Going to draynor village.";
     }
 }

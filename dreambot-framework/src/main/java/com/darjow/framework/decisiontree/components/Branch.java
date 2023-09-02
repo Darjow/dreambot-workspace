@@ -5,13 +5,10 @@ import com.darjow.framework.decisiontree.actions.TreeComponent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Branch implements TreeComponent {
+public abstract class Branch implements TreeComponent {
 
-    private final String status;
+    public Branch(){}
 
-    public Branch(String status){
-        this.status = status;
-    }
     protected List<Leaf> children = new ArrayList<>();
     protected List<Branch> dependencies = new ArrayList<>(); //branches to be executed before the branch.
 
@@ -55,9 +52,5 @@ public class Branch implements TreeComponent {
             }
         }
         return true;
-    }
-
-    public String getStatus() {
-        return String.format("[%s] - %s", getClass().getSimpleName(), status);
     }
 }

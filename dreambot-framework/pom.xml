@@ -37,6 +37,13 @@
       <version>3.6.1</version> <!-- Use the latest version -->
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.jfree/jfreechart -->
+    <dependency>
+      <groupId>org.jfree</groupId>
+      <artifactId>jfreechart</artifactId>
+      <version>1.5.4</version>
+    </dependency>
+
   </dependencies>
 
 </project>

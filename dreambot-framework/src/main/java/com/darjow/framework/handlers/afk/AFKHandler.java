@@ -3,7 +3,6 @@ package com.darjow.framework.handlers.afk;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
-import org.dreambot.api.methods.Calculations;
 
 public class AFKHandler {
 
@@ -20,53 +19,69 @@ public class AFKHandler {
     public boolean isAfk(){
         return afkUntil > System.currentTimeMillis();
     }
+
     public long getAfkUntil(){
         return afkUntil;
     }
 
-    public void startAfk(int min, int max){
-        NormalDistribution distribution = new NormalDistribution(randomGenerator, (min + max ) / 2, generateRandomSD());
-        setTimeOut(distribution);
-
-    }
-    public void startAfk(int min, int max, DistributionType type){
-        NormalDistribution distribution = new NormalDistribution(randomGenerator, (min + max ) / 2, generateRandomSD(type));
-        setTimeOut(distribution);
-
-    }
-    public void startAfk(int min, int max, int mean, int sd) {
-        NormalDistribution distribution = new NormalDistribution(randomGenerator, mean, sd);
-        setTimeOut(distribution);
-    }
-
-    public void startAfk(int min, int max, int mean, DistributionType type){
-        NormalDistribution distribution = new NormalDistribution(randomGenerator, mean, generateRandomSD(type));
-        setTimeOut(distribution);
-
-    }
     public void startAfk(int min, int max, int mean){
-        NormalDistribution distribution = new NormalDistribution(randomGenerator, mean, generateRandomSD());
-        setTimeOut(distribution);
+        startAfk(min, max, mean, DistributionType.UNIFORM);
     }
+    public void startAfk(int min, int max, int mean, DistributionType spread) {
+        double adjustedMean = mean;
+        double skewFactor = generateSkewFactor(spread);
 
-    private int generateRandomSD(){
-        return Calculations.random(1,80);
-    }
-
-    private int generateRandomSD(DistributionType type){
-        switch(type){
-            case UNIFORM: return 30 - Calculations.random(0,5);
-            case MOSTLY_SPREAD: return 25 - Calculations.random(0,5);
-            case LITTLE_SPREAD: return 5 + Calculations.random(0,20);
-            case DENSE: return Calculations.random(1,5);
+        switch (spread) {
+            case LEFT_SIDED:
+                adjustedMean = mean - skewFactor * (mean - min);
+                break;
+            case RIGHT_SIDED:
+                adjustedMean = mean + skewFactor * (max - mean);
+                break;
             default:
-                throw new IllegalArgumentException();
+        }
 
+        NormalDistribution distribution = new NormalDistribution(randomGenerator, adjustedMean, generateSD(min, max, spread));
+        setTimeOut(distribution, min, max);
+    }
+
+    private double generateSkewFactor(DistributionType spread) {
+        switch (spread) {
+            case LEFT_SIDED:
+                return Math.random() * 0.5;
+            case RIGHT_SIDED:
+                return 0.5 + Math.random() * 0.5;
+            default:
+                return 0.0;
         }
     }
-    private void setTimeOut(NormalDistribution distribution) {
-        int generatedNumber = (int) Math.round(distribution.sample());
-        afkUntil = generatedNumber + System.currentTimeMillis();
+
+    private double generateSD(int min, int max, DistributionType spread) {
+        double variance;
+        double skewFactor = generateSkewFactor(spread);
+
+        switch (spread) {
+            case LEFT_SIDED:
+                variance = Math.pow(max - min, 2) * (1 - skewFactor) / 12;
+                break;
+            case RIGHT_SIDED:
+                variance = Math.pow(max - min, 2) * skewFactor / 12;
+                break;
+            default:
+                variance = Math.pow(max - min, 2) / 12;
+        }
+
+        return Math.sqrt(variance);
     }
 
+    private void setTimeOut(NormalDistribution distribution, int min, int max) {
+        int generatedNumber;
+
+        do {
+            generatedNumber = (int) Math.round(distribution.sample());
+        } while (generatedNumber < min || generatedNumber > max);
+
+        afkUntil = generatedNumber * 1000 + System.currentTimeMillis();
+    }
 }
+

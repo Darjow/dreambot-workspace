@@ -10,9 +10,7 @@ import org.dreambot.api.utilities.Logger;
 
 public class AutoCast extends Leaf {
 
-    public AutoCast() {
-        super("Setting autocast");
-    }
+    public AutoCast() {}
 
     @Override
     public boolean validate() {
@@ -28,6 +26,11 @@ public class AutoCast extends Leaf {
         Spell spell = getBestSpell(magicLevel);
         Logger.info("Autocasting: " + spell.toString());
         Magic.setAutocastSpell(spell);
+    }
+
+    @Override
+    public String getStatus() {
+        return "[Leaf] Swapping spells.";
     }
 
 
