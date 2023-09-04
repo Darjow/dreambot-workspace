@@ -1,6 +1,6 @@
 package com.darjow.framework.teleportation.implementation;
 
-import com.darjow.framework.locations.Location;
+import com.darjow.framework.enums.Location;
 import com.darjow.framework.teleportation.SpellbookTeleport;
 import com.darjow.framework.widgets.Spellbook;
 import org.dreambot.api.methods.combat.Combat;
@@ -35,7 +35,7 @@ public class LumbridgeTeleport extends SpellbookTeleport {
             if(!Players.getLocal().isAnimating()){
                 timestampNoTimer = System.currentTimeMillis() + 180000;
             }else{
-                Sleep.sleepUntil(() -> Location.LUMBRIDGE_TELEPORT.getArea().contains(Players.getLocal()) || !canExecute(), 10000, 2);
+                Sleep.sleepUntil(() -> Location.LUMBRIDGE_TELEPORT.getArea().contains(Players.getLocal()) || !canExecute(), 20000, 2);
             }
 
             if (!Location.LUMBRIDGE_TELEPORT.getArea().contains(Players.getLocal())) {

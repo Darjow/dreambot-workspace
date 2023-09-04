@@ -12,7 +12,7 @@ import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.items.Item;
 
-import static com.darjow.framework.locations.Location.DRAYNOR_VILLAGE_MARKET;
+import static com.darjow.framework.enums.Location.DRAYNOR_VILLAGE_MARKET;
 import static com.darjow.scripts.splasher.util.Constants.ItemIDs.COINS;
 import static com.darjow.scripts.splasher.util.Constants.ItemIDs.CURSED_GOBLIN_STAFF;
 
@@ -40,7 +40,7 @@ public class BuyStaff extends Leaf {
             Logger.error("Out of coins, can't buy staff.");
             ScriptManager.getScriptManager().stop();
         }
-        if(coins.getAmount() < 5000){
+        if(coins.getAmount() < 50){
             Logger.error("Out of coins can't buy staff.");
             ScriptManager.getScriptManager().stop();
         }

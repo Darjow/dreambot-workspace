@@ -18,11 +18,16 @@ import com.darjow.scripts.splasher.branches.splashing.leaves.AttackSeagull;
 import com.darjow.scripts.splasher.branches.splashing.leaves.AutoCast;
 import com.darjow.scripts.splasher.branches.splashing.leaves.GoAfk;
 import org.dreambot.api.Client;
+import org.dreambot.api.data.GameState;
 import org.dreambot.api.methods.Calculations;
+import org.dreambot.api.methods.RSLoginResponse;
+import org.dreambot.api.methods.interactive.Players;
+import org.dreambot.api.methods.login.LoginStage;
 import org.dreambot.api.methods.login.LoginUtility;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.SkillTracker;
 import org.dreambot.api.methods.skills.Skills;
+import org.dreambot.api.randoms.RandomEvent;
 import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManager;
 import org.dreambot.api.script.ScriptManifest;
@@ -44,39 +49,35 @@ public class Main extends DecisionTreeScript {
     private final TimeUtilites timeUtilities = new TimeUtilites();
     private AFKHandler handler = new AFKHandler();
 
-
     @Override
     public void onPaint(Graphics g) {
         g.setFont(new Font("Sathu", Font.BOLD, 12));
-        g.drawString("Shock's - Splasher", 40, 160);
+        g.drawString("Shock's - Splasher", 40, 30);
 
-        Leaf leaf = decisionTree.getCurrentLeaf();
+        if(decisionTree != null ) {
+            Leaf leaf = decisionTree.getCurrentLeaf();
 
-        if(leaf != null){
-            g.drawString(decisionTree.getCurrentBranch().getStatus(), 40, 180);
-            g.drawString(decisionTree.getCurrentLeaf().getStatus(), 40, 200);
+            if (leaf != null) {
+                g.drawString(decisionTree.getCurrentBranch().getStatus(), 40, 50);
+                g.drawString(decisionTree.getCurrentLeaf().getStatus(), 40, 70);
+            }
         }
-
-        g.drawString(String.format("Total runtime: %s", timeUtilities.getTimeRunning()), 40, 240);
-        g.drawString(String.format("Exp earned: %s", SkillTracker.getGainedExperience(Skill.MAGIC)), 40, 260);
-        g.drawString(String.format("Magic Level: %d", Skills.getRealLevel(Skill.MAGIC)), 40, 280);
+        g.drawString(String.format("Total runtime: %s", timeUtilities.getTimeRunning()), 40, 90);
+        g.drawString(String.format("Exp earned: %s", SkillTracker.getGainedExperience(Skill.MAGIC)), 40, 110);
+        g.drawString(String.format("Magic Level: %d", Skills.getRealLevel(Skill.MAGIC)), 40, 130);
     }
 
     @Override
     public void onStart() {
+        super.onStart();
+        LoginUtility.login();
+        sleepUntil(() -> Client.isLoggedIn() && Players.getLocal().isOnScreen(), 2500, 7);
         createDecisionTree();
+        getRandomManager().disableSolver(RandomEvent.LOGIN);
         SkillTracker.start(Skill.MAGIC);
-        DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/1144906518001623110/K3oxBYKaprKHRVdOkSAXCw593M1oZLGUfnt-PP84-6QiYLTKM55Dvw9NEkX_hJlQhfYk");
-        webhook.setTts(true);
-        webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setDescription(LoginUtility.getLoginEmail())
-                .setColor(Color.GREEN));
-        try {
-            webhook.execute();
-        } catch (IOException e) {
-            Logger.error("Discordwebhook failed on start: " + e.getMessage());
-        }
+
     }
+
 
     @Override
     public void onExit() {
@@ -124,12 +125,19 @@ public class Main extends DecisionTreeScript {
 
     @Override
     public int onLoop() {
-        if(Skills.getRealLevel(Skill.MAGIC) >= 50){ //will add script arguments later
-            ScriptManager.getScriptManager().stop();
+        if(!Client.isLoggedIn()){
+            if(!handler.isAfk()){
+                getRandomManager().enableSolver(RandomEvent.LOGIN);
+            }
         }
-        if(Client.isLoggedIn()){
+        else if (Skills.getRealLevel(Skill.MAGIC) >= 50) {
+            Logger.info("We are 50+ magic level. Terminating script.");
+            getScriptManager().stop();
+        }
+        else if(Client.isLoggedIn()){
             if(handler.isAfk()){
-                Sleep.sleepUntil(() -> !handler.isAfk(), 5000, 10);
+                getRandomManager().disableSolver(RandomEvent.LOGIN);
+                Sleep.sleepUntil(() -> !handler.isAfk() || Skills.getRealLevel(Skill.MAGIC) >= 50, 1000, 2500);
             }
             else{
                 decisionTree.execute();

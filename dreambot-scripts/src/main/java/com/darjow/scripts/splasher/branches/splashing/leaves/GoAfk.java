@@ -32,7 +32,6 @@ public class GoAfk extends Leaf {
             if (local.isInCombat() && local.isHealthBarVisible()) {
                 return true;
             }
-
         }
         return false;
     }
@@ -57,7 +56,7 @@ public class GoAfk extends Leaf {
 
         if(rightclick){
             Rectangle fullScreen= FullscreenRectangle.getRectangle();
-            Mouse.click(new MouseArea(fullScreen).getRandomPoint());
+            Mouse.click(new MouseArea(fullScreen).getRandomPoint(), true);
         }
 
         if(new Random().nextInt(15) != 1){

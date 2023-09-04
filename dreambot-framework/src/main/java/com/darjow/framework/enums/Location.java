@@ -1,9 +1,8 @@
-package com.darjow.framework.locations;
+package com.darjow.framework.enums;
 
 import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.map.Tile;
-import org.dreambot.api.methods.walking.impl.Walking;
-import org.dreambot.api.utilities.Logger;
+import org.dreambot.api.wrappers.interactive.Locatable;
 
 import java.util.Arrays;
 
@@ -16,7 +15,9 @@ public enum Location {
     Location(Area area){
         this.area = area;
     }
-    private Area area;
+
+
+    private final Area area;
 
 
     public Area getArea(){
@@ -25,7 +26,7 @@ public enum Location {
 
     public Tile getWalkableTile() {
         return Arrays.stream(area.getTiles())
-                .filter(e -> e.canReach())
+                .filter(e-> e.canReach())
                 .findAny()
                 .orElse(null);
     }

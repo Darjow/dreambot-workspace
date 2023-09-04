@@ -1,11 +1,13 @@
 package com.darjow.scripts.splasher.branches.splashing.leaves;
 
 import com.darjow.framework.decisiontree.components.Leaf;
+import com.darjow.framework.widgets.Spellbook;
 import org.dreambot.api.methods.magic.Magic;
 import org.dreambot.api.methods.magic.Normal;
 import org.dreambot.api.methods.magic.Spell;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
+import org.dreambot.api.script.ScriptManager;
 import org.dreambot.api.utilities.Logger;
 
 public class AutoCast extends Leaf {
@@ -25,7 +27,12 @@ public class AutoCast extends Leaf {
         int magicLevel = Skills.getRealLevel(Skill.MAGIC);
         Spell spell = getBestSpell(magicLevel);
         Logger.info("Autocasting: " + spell.toString());
-        Magic.setAutocastSpell(spell);
+        if(Spellbook.canCast(spell)) {
+            Magic.setAutocastSpell(spell);
+        }else{
+            Logger.error("Out of runes stopping the script.");
+            ScriptManager.getScriptManager().stop();
+        }
     }
 
     @Override
@@ -34,11 +41,12 @@ public class AutoCast extends Leaf {
     }
 
 
-    private boolean canCastSpell(int magicLevel, int requiredLevel) {
+    private boolean hasLevelRequirement(int magicLevel, int requiredLevel) {
         return magicLevel >= requiredLevel;
     }
+
     private Spell getBestSpell(int magicLevel) {
-        if (canCastSpell(magicLevel, 13)) {
+        if (hasLevelRequirement(magicLevel, 13)) {
             return Normal.FIRE_STRIKE;
         } else {
             return Normal.WIND_STRIKE;

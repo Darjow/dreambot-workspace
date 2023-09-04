@@ -1,16 +1,19 @@
 package com.darjow.scripts.splasher.branches.splashing.leaves;
 
 import com.darjow.framework.decisiontree.components.Leaf;
+import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
+import org.dreambot.api.methods.magic.Magic;
 import org.dreambot.api.methods.map.Area;
+import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.api.wrappers.interactive.Player;
 
 
-import static com.darjow.framework.locations.Location.PORT_SARIM_SEAGULLS;
+import static com.darjow.framework.enums.Location.PORT_SARIM_SEAGULLS;
 
 public class AttackSeagull extends Leaf {
 
@@ -22,8 +25,10 @@ public class AttackSeagull extends Leaf {
         Area seagullsArea = PORT_SARIM_SEAGULLS.getArea();
 
         if(seagullsArea.contains(player)){
-            if(!player.isInCombat()){
-                return true;
+            if(!player.isInCombat() || !Players.getLocal().isHealthBarVisible()){
+                if(Magic.isAutocasting()){
+                    return true;
+                }
             }
         }
         return false;
@@ -35,9 +40,12 @@ public class AttackSeagull extends Leaf {
         NPC seagull = NPCs.closest(e -> !e.isInCombat() && e.getName().equals("Seagull") && !e.isHealthBarVisible());
 
         if (seagull != null || seagull.exists()) {
-            if (seagull.interact()) {
+            if(Players.getLocal().isInCombat() && !Players.getLocal().isHealthBarVisible()){
+                Walking.walkOnScreen(seagull.getTrueTile());
+            }
+            else if (seagull.interact()) {
                 Logger.info("Attacked a seagull, waiting to be in combat.");
-                Sleep.sleepUntil(() -> Players.getLocal().isInCombat() || Players.getLocal().isHealthBarVisible(), 500, 3);
+                Sleep.sleepUntil(() -> Players.getLocal().isHealthBarVisible(), Calculations.random(250,750), Calculations.random(5,15));
             } else {
                 Logger.info("Failed to attack seagull.");
             }
