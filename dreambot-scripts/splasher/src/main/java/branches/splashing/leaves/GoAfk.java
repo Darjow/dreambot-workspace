@@ -10,6 +10,7 @@ import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
+import org.dreambot.api.script.ScriptManager;
 import org.dreambot.api.wrappers.interactive.Player;
 
 import java.awt.*;
@@ -37,7 +38,7 @@ public class GoAfk extends Leaf {
 
     @Override
     public void execute() {
-        handler.startAfk(90, 1800, 700);
+        handler.startAfk(90000, 1800000, 700000);
 
         int random = Calculations.random(1,10);
         boolean rightclick = false;

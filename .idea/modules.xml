@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/dreambot-scripts/crafting-f2p/crafting-f2p.iml" filepath="$PROJECT_DIR$/dreambot-scripts/crafting-f2p/crafting-f2p.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/dreambot.iml" filepath="$PROJECT_DIR$/.idea/dreambot.iml" />
       <module fileurl="file://$PROJECT_DIR$/dreambot-framework/dreambot-framework.iml" filepath="$PROJECT_DIR$/dreambot-framework/dreambot-framework.iml" />
       <module fileurl="file://$PROJECT_DIR$/dreambot-scripts/dreambot-scripts.iml" filepath="$PROJECT_DIR$/dreambot-scripts/dreambot-scripts.iml" />

@@ -9,6 +9,7 @@
 
   <modules>
     <module>splasher</module>
+    <module>crafting-f2p</module>
   </modules>
 
     <dependencies>

@@ -7,10 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="splasher" />
+        <module name="crafting-f2p" />
         <module name="dreambot-framework" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="crafting" target="11" />
+      <module name="crafting-f2p" target="11" />
       <module name="dreambot-framework" target="11" />
       <module name="dreambot-scripts" target="11" />
       <module name="splasher" target="11" />

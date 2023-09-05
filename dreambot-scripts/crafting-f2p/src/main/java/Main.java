@@ -1,25 +1,15 @@
-import com.darjow.framework.antiban.ABNumberGenerator;
-import branches.setup.SetupBranch;
-import branches.setup.leaves.BuyStaff;
-import branches.setup.leaves.EquipStaff;
-import branches.setup.leaves.GoToMarket;
-import branches.setup.leaves.RunToSpot;
-import branches.splashing.SplashingBranch;
-import branches.splashing.leaves.AttackSeagull;
-import branches.splashing.leaves.AutoCast;
-import branches.splashing.leaves.GoAfk;
 import com.darjow.framework.decisiontree.components.Branch;
 import com.darjow.framework.decisiontree.components.Leaf;
 import com.darjow.framework.decisiontree.components.Tree;
 import com.darjow.framework.decisiontree.components.TreeBuilder;
 import com.darjow.framework.handlers.afk.AFKHandler;
-import com.darjow.framework.handlers.afk.DistributionType;
 import com.darjow.framework.script.DecisionTreeScript;
 import com.darjow.framework.utility.discord.DiscordWebhook;
 import com.darjow.framework.utility.time.TimeUtilites;
 import org.dreambot.api.Client;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.interactive.Players;
+import org.dreambot.api.methods.login.LoginStage;
 import org.dreambot.api.methods.login.LoginUtility;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.SkillTracker;
@@ -37,8 +27,8 @@ import java.io.IOException;
         version = 1.0,
         category = Category.COMBAT,
         author = "Shock",
-        description = "Fetches all items and performs splashing until target level has reached",
-        name = "Shock's Splasher"
+        description = "Dynamic jewelry maker in F2P",
+        name = "Shock's F2P crafter"
 )
 public class Main extends DecisionTreeScript {
 
@@ -48,7 +38,7 @@ public class Main extends DecisionTreeScript {
     @Override
     public void onPaint(Graphics g) {
         g.setFont(new Font("Sathu", Font.BOLD, 12));
-        g.drawString("Shock's - Splasher", 40, 30);
+        g.drawString("Shock's - F2P crafter", 40, 30);
 
         if(decisionTree != null ) {
             Leaf leaf = decisionTree.getCurrentLeaf();
@@ -60,31 +50,29 @@ public class Main extends DecisionTreeScript {
         }
         g.drawString(String.format("Total runtime: %s", timeUtilities.getTimeRunning()), 40, 90);
         g.drawString(String.format("Exp earned: %s", SkillTracker.getGainedExperience(Skill.MAGIC)), 40, 110);
-        g.drawString(String.format("Magic Level: %d", Skills.getRealLevel(Skill.MAGIC)), 40, 130);
+        g.drawString(String.format("Crafting Level: %d", Skills.getRealLevel(Skill.MAGIC)), 40, 130);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         LoginUtility.login();
-        sleepUntil(() -> Client.isLoggedIn() && Players.getLocal().isOnScreen(), 2500, 7);
+        sleepUntil(() -> Client.isLoggedIn() && LoginUtility.getStage() != LoginStage.LOGIN_SCREEN_PLAY_NOW && Players.getLocal().isOnScreen(), 5000, 7);
         createDecisionTree();
-        getRandomManager().disableSolver(RandomEvent.LOGIN);
-        SkillTracker.start(Skill.MAGIC);
-
+        SkillTracker.start(Skill.CRAFTING);
     }
 
 
     @Override
     public void onExit() {
         super.onExit();
-        DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/1144906671769006110/sJrsomZcOw7rZbtjHFzq_eIkU_ToA27L5xjLVMFc6j6rT0fv8FpK1BKBE4Rwn6BzDTrn");
+        DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/1148707408668004483/e-2JkzqbeKCnic8aJTfr5QI9D5_jCVvJXrCoUXc6J11ykOn6VXLULQs0lQBTFKIMYPtG");
         webhook.setTts(true);
         webhook.addEmbed(new DiscordWebhook.EmbedObject()
                 .setColor(Color.white)
                 .setDescription(LoginUtility.getLoginEmail())
-                .addField("Exp earned: ", String.valueOf(SkillTracker.getGainedExperience(Skill.MAGIC)), true)
-                .addField("Magic level: ", String.valueOf(Skills.getRealLevel(Skill.MAGIC)), true)
+                .addField("Exp earned: ", String.valueOf(SkillTracker.getGainedExperience(Skill.CRAFTING)), true)
+                .addField("Crafting level: ", String.valueOf(Skills.getRealLevel(Skill.CRAFTING)), true)
                 .addField("Total Runtime: " ,timeUtilities.getTimeRunning(), false)
                 .setColor(Color.RED));
 
@@ -97,51 +85,20 @@ public class Main extends DecisionTreeScript {
 
     @Override
     protected void createDecisionTree() {
-        //dependancy
-        Branch setupBranch = new SetupBranch();
 
-
-        Tree decisionTree = TreeBuilder.newBuilder()
-                .addBranch(setupBranch)
-                    .addLeaf(new GoToMarket())
-                    .addLeaf(new BuyStaff())
-                    .addLeaf(new EquipStaff())
-                    .addLeaf(new RunToSpot())
-
-                .addBranch(new SplashingBranch())
-                    .addDependancy(setupBranch)
-                    .addLeaf(new AutoCast())
-                    .addLeaf(new AttackSeagull())
-                    .addLeaf(new GoAfk(handler))
-
-                .build();
-
-        this.decisionTree = decisionTree;
     }
 
     @Override
     public int onLoop() {
-        if(!Client.isLoggedIn()){
-            if(!handler.isAfk()){
-                getRandomManager().enableSolver(RandomEvent.LOGIN);
-            }
-        }
-        else if (Skills.getRealLevel(Skill.MAGIC) >= 50) {
-            Logger.info("We are 50+ magic level. Terminating script.");
-            Sleep.sleep(ABNumberGenerator.generateRandomNumber(1000,160000, 140000, DistributionType.LEFT_SIDED));
+        if (Skills.getRealLevel(Skill.CRAFTING) >= 50) {
+            Logger.info("We are 50+ crafting level. Terminating script.");
             getScriptManager().stop();
-            System.exit(0);
         }
-        else if(Client.isLoggedIn()){
-            if(handler.isAfk()){
-                getRandomManager().disableSolver(RandomEvent.LOGIN);
-                Sleep.sleepUntil(() -> !handler.isAfk() || Skills.getRealLevel(Skill.MAGIC) >= 50, 1000, 2500);
-            }
-            else{
-                decisionTree.execute();
-            }
+        else{
+            decisionTree.execute();
         }
-        return Calculations.random(250,1250);
+
+        return Calculations.random(750,2480);
     }
 
 }
