@@ -1,4 +1,4 @@
-package com.darjow.scripts.splasher.branches.splashing.leaves;
+package branches.splashing.leaves;
 
 import com.darjow.framework.decisiontree.components.Leaf;
 import org.dreambot.api.methods.Calculations;
@@ -11,7 +11,6 @@ import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.api.wrappers.interactive.Player;
-
 
 import static com.darjow.framework.enums.Location.PORT_SARIM_SEAGULLS;
 
@@ -37,9 +36,13 @@ public class AttackSeagull extends Leaf {
     @Override
     public void execute() {
         Logger.info("Attacking seagull");
-        NPC seagull = NPCs.closest(e -> !e.isInCombat() && e.getName().equals("Seagull") && !e.isHealthBarVisible());
+        NPC seagull = NPCs.closest(e -> e.isInteracting(Players.getLocal()));
 
-        if (seagull != null || seagull.exists()) {
+        if(seagull == null ){
+            seagull = NPCs.closest(e -> !e.isInCombat() && e.getName().equals("Seagull") && !e.isHealthBarVisible());
+        }
+
+        if (seagull != null && seagull.exists()) {
             if(Players.getLocal().isInCombat() && !Players.getLocal().isHealthBarVisible()){
                 Walking.walkOnScreen(seagull.getTrueTile());
             }

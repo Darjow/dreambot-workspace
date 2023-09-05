@@ -1,4 +1,4 @@
-package com.darjow.scripts.splasher.branches.setup.leaves;
+package branches.setup.leaves;
 
 import com.darjow.framework.decisiontree.components.Leaf;
 import com.darjow.framework.teleportation.TeleportationMethod;
@@ -13,7 +13,8 @@ import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.wrappers.items.Item;
 
 import static com.darjow.framework.enums.Location.DRAYNOR_VILLAGE_MARKET;
-import static com.darjow.scripts.splasher.util.Constants.ItemIDs.CURSED_GOBLIN_STAFF;
+import static util.Constants.ItemIDs.CURSED_GOBLIN_STAFF;
+
 
 public class GoToMarket extends Leaf {
 
@@ -46,7 +47,7 @@ public class GoToMarket extends Leaf {
     public void execute() {
         Logger.info("Running to the market.");
 
-        if(Walking.walk(DRAYNOR_VILLAGE_MARKET.getWalkableTile())) {
+        if(Walking.walk(DRAYNOR_VILLAGE_MARKET.getArea())) {
             Logger.info("Walking to market");
         }else{
             Logger.info("We can't reach the market from our position.");

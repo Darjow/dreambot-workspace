@@ -1,4 +1,4 @@
-package com.darjow.scripts.splasher.branches.setup;
+package branches.setup;
 
 import com.darjow.framework.decisiontree.components.Branch;
 

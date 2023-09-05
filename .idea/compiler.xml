@@ -6,13 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="dreambot-scripts" />
+        <module name="splasher" />
         <module name="dreambot-framework" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="dreambot-framework" target="11" />
       <module name="dreambot-scripts" target="11" />
+      <module name="splasher" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

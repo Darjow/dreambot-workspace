@@ -1,4 +1,4 @@
-package com.darjow.scripts.splasher.branches.splashing.leaves;
+package branches.splashing.leaves;
 
 import com.darjow.framework.decisiontree.components.Leaf;
 import com.darjow.framework.handlers.afk.AFKHandler;
@@ -7,7 +7,6 @@ import com.darjow.framework.input.mouse.FullscreenRectangle;
 import com.darjow.framework.input.mouse.MouseArea;
 import org.dreambot.api.input.Mouse;
 import org.dreambot.api.methods.Calculations;
-import org.dreambot.api.methods.input.Camera;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;

@@ -1,4 +1,4 @@
-package com.darjow.scripts.splasher.branches.splashing.leaves;
+package branches.splashing.leaves;
 
 import com.darjow.framework.decisiontree.components.Leaf;
 import com.darjow.framework.widgets.Spellbook;

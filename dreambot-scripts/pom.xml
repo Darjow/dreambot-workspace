@@ -3,18 +3,22 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.darjow.scripts</groupId>
   <artifactId>dreambot-scripts</artifactId>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
   <version>1.0</version>
   <name>scripts</name>
 
-  <dependencies>
-    <dependency>
-      <groupId>com.darjow.framework</groupId>
-      <artifactId>dreambot-framework</artifactId>
-      <version>1.0</version>
-      <scope>compile</scope>
-    </dependency>
-  </dependencies>
+  <modules>
+    <module>splasher</module>
+  </modules>
+
+    <dependencies>
+      <dependency>
+        <groupId>com.darjow.framework</groupId>
+        <artifactId>dreambot-framework</artifactId>
+        <version>1.0</version>
+        <scope>compile</scope>
+      </dependency>
+    </dependencies>
 
   <build>
     <plugins>
@@ -28,30 +32,6 @@
         </configuration>
       </plugin>
 
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>splasher</id>
-            <configuration>
-              <archive>
-                <manifest>
-                  <mainClass>com.darjow.scripts.splasher.Main</mainClass>
-                </manifest>
-              </archive>
-              <descriptorRefs>
-                <descriptorRef>jar-with-dependencies</descriptorRef>
-              </descriptorRefs>
-              <finalName>splasher</finalName>
-              <outputDirectory>${user.home}/DreamBot/Scripts</outputDirectory>
-            </configuration>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 </project>

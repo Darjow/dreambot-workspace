@@ -1,4 +1,4 @@
-package com.darjow.scripts.splasher.util;
+package util;
 
 public class Constants {
     public static class ItemIDs{
