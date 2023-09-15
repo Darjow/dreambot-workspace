@@ -1,10 +1,10 @@
 package branches.setup.leaves;
 
-import com.darjow.framework.decisiontree.components.Leaf;
+import com.darjow.framework.script.decisiontree.Leaf;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.utilities.Logger;
 
-import static util.Constants.ItemIDs.CURSED_GOBLIN_STAFF;
+import static constants.ID.CURSED_GOBLIN_STAFF;
 
 public class EquipStaff extends Leaf {
 

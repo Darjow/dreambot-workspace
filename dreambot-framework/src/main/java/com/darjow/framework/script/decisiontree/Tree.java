@@ -1,4 +1,4 @@
-package com.darjow.framework.decisiontree.components;
+package com.darjow.framework.script.decisiontree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,6 @@ public class Tree {
     private Branch currentBranch;
     private Leaf currentLeaf;
 
-    public Tree() {
-
-    }
 
     public void addBranch(Branch branch) {
         branches.add(branch);

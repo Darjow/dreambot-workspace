@@ -1,6 +1,6 @@
 package branches.setup;
 
-import com.darjow.framework.decisiontree.components.Branch;
+import com.darjow.framework.script.decisiontree.Branch;
 
 public class SetupBranch extends Branch {
 

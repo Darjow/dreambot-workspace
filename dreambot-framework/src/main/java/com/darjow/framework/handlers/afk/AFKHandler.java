@@ -1,6 +1,7 @@
 package com.darjow.framework.handlers.afk;
 
 import com.darjow.framework.antiban.ABNumberGenerator;
+import org.dreambot.api.utilities.Logger;
 
 public class AFKHandler {
 

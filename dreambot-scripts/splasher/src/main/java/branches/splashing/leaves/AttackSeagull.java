@@ -1,6 +1,6 @@
 package branches.splashing.leaves;
 
-import com.darjow.framework.decisiontree.components.Leaf;
+import com.darjow.framework.script.decisiontree.Leaf;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;

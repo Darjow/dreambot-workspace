@@ -1,6 +1,6 @@
 package branches.splashing;
 
-import com.darjow.framework.decisiontree.components.Branch;
+import com.darjow.framework.script.decisiontree.Branch;
 
 public class SplashingBranch extends Branch {
 

@@ -1,6 +1,6 @@
 package branches.setup.leaves;
 
-import com.darjow.framework.decisiontree.components.Leaf;
+import com.darjow.framework.script.decisiontree.Leaf;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.utilities.Logger;

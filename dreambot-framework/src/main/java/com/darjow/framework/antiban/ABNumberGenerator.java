@@ -4,6 +4,7 @@ import com.darjow.framework.handlers.afk.DistributionType;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
+import org.dreambot.api.utilities.Logger;
 
 public class ABNumberGenerator {
 
@@ -50,20 +51,44 @@ public class ABNumberGenerator {
                 break;
             default:
         }
-        
+
         NormalDistribution distribution = new NormalDistribution(randomGenerator, adjustedMean, generateSD(min, max, spread));
 
-        long generatedNumber;
-
-        do {
-            generatedNumber = Math.round(distribution.sample());
-        } while (generatedNumber < min || generatedNumber > max);
+        long generatedNumber = 0;
+    do {
+        Logger.warn("yoooooo");
+        generatedNumber = Math.round(distribution.sample());
+    } while (generatedNumber < min || generatedNumber > max);
 
         return generatedNumber;
     }
 
     public static long generateRandomNumber(int min, int max, int mean) {
         return generateRandomNumber(min, max, mean, DistributionType.UNIFORM);
+    }
+
+    public static int generateHumanLikeBuyOrderQuantity(int quantityNeeded){
+        int[] roundingValues = {50, 100, 250, 500, 1000, 2500};
+        int roundedNumber = roundUpToRandom(quantityNeeded, roundingValues);
+        return roundedNumber;
+    }
+
+    private static int roundUpToRandom(int number, int[] roundingValues) {
+        int oneTenth = number / 10;
+        int closestValue = Integer.MAX_VALUE;
+
+        for (int i = roundingValues.length - 1; i >= 0; i--) {
+            if (roundingValues[i] <= oneTenth) {
+                closestValue = roundingValues[i];
+                break;
+            }
+        }
+
+        if (closestValue != Integer.MAX_VALUE) {
+            return (number + closestValue) / closestValue * closestValue;
+        }
+
+        return number;
     }
 
 }

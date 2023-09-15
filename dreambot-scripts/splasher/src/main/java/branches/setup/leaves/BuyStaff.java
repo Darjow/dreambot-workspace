@@ -1,6 +1,6 @@
 package branches.setup.leaves;
 
-import com.darjow.framework.decisiontree.components.Leaf;
+import com.darjow.framework.script.decisiontree.Leaf;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.Shop;
@@ -13,8 +13,8 @@ import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.items.Item;
 
 import static com.darjow.framework.enums.Location.DRAYNOR_VILLAGE_MARKET;
-import static util.Constants.ItemIDs.COINS;
-import static util.Constants.ItemIDs.CURSED_GOBLIN_STAFF;
+import static constants.ID.COINS;
+import static constants.ID.CURSED_GOBLIN_STAFF;
 
 
 public class BuyStaff extends Leaf {

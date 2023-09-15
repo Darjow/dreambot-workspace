@@ -1,6 +1,4 @@
-package com.darjow.framework.decisiontree.components;
-
-import com.darjow.framework.decisiontree.actions.TreeComponent;
+package com.darjow.framework.script.decisiontree;
 
 public class TreeBuilder {
     private Tree tree;

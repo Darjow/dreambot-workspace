@@ -1,6 +1,6 @@
 package branches.splashing.leaves;
 
-import com.darjow.framework.decisiontree.components.Leaf;
+import com.darjow.framework.script.decisiontree.Leaf;
 import com.darjow.framework.widgets.Spellbook;
 import org.dreambot.api.methods.magic.Magic;
 import org.dreambot.api.methods.magic.Normal;
@@ -46,7 +46,10 @@ public class AutoCast extends Leaf {
     }
 
     private Spell getBestSpell(int magicLevel) {
-        if (hasLevelRequirement(magicLevel, 13)) {
+        if(hasLevelRequirement(magicLevel, 35)){
+            return Normal.FIRE_BOLT;
+        }
+        else if (hasLevelRequirement(magicLevel, 13)) {
             return Normal.FIRE_STRIKE;
         } else {
             return Normal.WIND_STRIKE;

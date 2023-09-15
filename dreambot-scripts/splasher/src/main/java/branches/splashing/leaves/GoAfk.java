@@ -1,6 +1,6 @@
 package branches.splashing.leaves;
 
-import com.darjow.framework.decisiontree.components.Leaf;
+import com.darjow.framework.script.decisiontree.Leaf;
 import com.darjow.framework.handlers.afk.AFKHandler;
 import com.darjow.framework.input.camera.CameraMovements;
 import com.darjow.framework.input.mouse.FullscreenRectangle;
@@ -10,7 +10,6 @@ import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
-import org.dreambot.api.script.ScriptManager;
 import org.dreambot.api.wrappers.interactive.Player;
 
 import java.awt.*;
@@ -38,7 +37,7 @@ public class GoAfk extends Leaf {
 
     @Override
     public void execute() {
-        handler.startAfk(90000, 1800000, 700000);
+        handler.startAfk(2 * 60000, 20 * 60000, 9 * 60000);
 
         int random = Calculations.random(1,10);
         boolean rightclick = false;

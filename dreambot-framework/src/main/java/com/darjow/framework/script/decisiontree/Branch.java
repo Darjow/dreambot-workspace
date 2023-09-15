@@ -1,18 +1,16 @@
-package com.darjow.framework.decisiontree.components;
+package com.darjow.framework.script.decisiontree;
 
-import com.darjow.framework.decisiontree.actions.TreeComponent;
+import com.darjow.framework.script.actions.ExecutableTask;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Branch implements TreeComponent {
-
-    public Branch(){}
+public abstract class Branch implements ExecutableTask {
 
     protected List<Leaf> children = new ArrayList<>();
     protected List<Branch> dependencies = new ArrayList<>(); //branches to be executed before the branch.
 
-    protected TreeComponent current = null;
+    protected ExecutableTask current = null;
 
     public List<Leaf> getChildren(){
         return children;
@@ -36,7 +34,7 @@ public abstract class Branch implements TreeComponent {
         if(!dependenciesCompleted()){
             return false;
         }
-        for (TreeComponent child : children) {
+        for (ExecutableTask child : children) {
             if (child.validate()) {
                 current = child;
                 return true;

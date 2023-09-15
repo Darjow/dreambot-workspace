@@ -8,10 +8,10 @@ import branches.splashing.SplashingBranch;
 import branches.splashing.leaves.AttackSeagull;
 import branches.splashing.leaves.AutoCast;
 import branches.splashing.leaves.GoAfk;
-import com.darjow.framework.decisiontree.components.Branch;
-import com.darjow.framework.decisiontree.components.Leaf;
-import com.darjow.framework.decisiontree.components.Tree;
-import com.darjow.framework.decisiontree.components.TreeBuilder;
+import com.darjow.framework.script.decisiontree.Branch;
+import com.darjow.framework.script.decisiontree.Leaf;
+import com.darjow.framework.script.decisiontree.Tree;
+import com.darjow.framework.script.decisiontree.TreeBuilder;
 import com.darjow.framework.handlers.afk.AFKHandler;
 import com.darjow.framework.handlers.afk.DistributionType;
 import com.darjow.framework.script.DecisionTreeScript;
@@ -67,7 +67,7 @@ public class Main extends DecisionTreeScript {
     public void onStart() {
         super.onStart();
         LoginUtility.login();
-        sleepUntil(() -> Client.isLoggedIn() && Players.getLocal().isOnScreen(), 2500, 7);
+        sleepUntil(() -> Client.isLoggedIn() && Players.getLocal().isOnScreen(), 2500, 10);
         createDecisionTree();
         getRandomManager().disableSolver(RandomEvent.LOGIN);
         SkillTracker.start(Skill.MAGIC);
@@ -97,7 +97,6 @@ public class Main extends DecisionTreeScript {
 
     @Override
     protected void createDecisionTree() {
-        //dependancy
         Branch setupBranch = new SetupBranch();
 
 
@@ -126,7 +125,7 @@ public class Main extends DecisionTreeScript {
                 getRandomManager().enableSolver(RandomEvent.LOGIN);
             }
         }
-        else if (Skills.getRealLevel(Skill.MAGIC) >= 50) {
+        else if (Skills.getRealLevel(Skill.MAGIC) >= 55) {
             Logger.info("We are 50+ magic level. Terminating script.");
             Sleep.sleep(ABNumberGenerator.generateRandomNumber(1000,160000, 140000, DistributionType.LEFT_SIDED));
             getScriptManager().stop();
@@ -135,13 +134,13 @@ public class Main extends DecisionTreeScript {
         else if(Client.isLoggedIn()){
             if(handler.isAfk()){
                 getRandomManager().disableSolver(RandomEvent.LOGIN);
-                Sleep.sleepUntil(() -> !handler.isAfk() || Skills.getRealLevel(Skill.MAGIC) >= 50, 1000, 2500);
+                Sleep.sleepUntil(() -> !handler.isAfk() || Skills.getRealLevel(Skill.MAGIC) >= 55, 100000, 2500);
             }
             else{
                 decisionTree.execute();
             }
         }
-        return Calculations.random(250,1250);
+        return Calculations.random(1500,3500);
     }
 
 }
