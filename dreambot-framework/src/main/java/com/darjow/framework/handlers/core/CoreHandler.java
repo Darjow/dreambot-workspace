@@ -21,12 +21,13 @@ public class CoreHandler {
         if(current.isGrandExchangeRequired()){
             geHandler.handle(current, upcomming);
         }
-        else if(current.isTravelRequired()){
-            traversingHandler.traverse(current.getLocation());
-        }
         else if(current.isBankingRequired()){
             bankingHandler.handle(current);
         }
+        else if(current.isTravelRequired()){
+            traversingHandler.traverse(current.getLocation());
+        }
+
 
     }
 
